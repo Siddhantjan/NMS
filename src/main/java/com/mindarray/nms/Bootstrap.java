@@ -8,17 +8,23 @@ import org.slf4j.LoggerFactory;
 
 public class Bootstrap {
     public static final  Vertx vertx= Vertx.vertx();
-    public static final Logger LOG= LoggerFactory.getLogger(Bootstrap.class);
+    public static final Logger LOG = LoggerFactory.getLogger(Bootstrap.class);
     public static void main(String[] args) {
+      try {
+          Class.forName("com.mysql.cj.jdbc.Driver");
+      }catch (ClassNotFoundException exception){
+          LOG.error("exception "+exception.getCause().getMessage());
+      }
+
        start(APIServer.class.getName())
                .compose(future->start(DatabaseEngine.class.getName()))
                .compose(future->start(DiscoveryEngine.class.getName()))
                .compose(future->start(PollerEngine.class.getName()))
-               .onComplete(handler ->{
-                  if (handler.succeeded()){
-                      LOG.debug("All Verticle deployed successfully");
+               .onComplete(future ->{
+                  if (future.succeeded()){
+                      LOG.info("All Verticle deployed successfully");
                   }
-                  else {LOG.error("ERROR "+handler.cause());
+                  else {LOG.error("ERROR "+future.cause());
                   }
                });
     }

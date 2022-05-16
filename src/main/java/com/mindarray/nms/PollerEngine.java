@@ -1,6 +1,11 @@
 package com.mindarray.nms;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Promise;
 
 public class PollerEngine extends AbstractVerticle {
+    @Override
+    public void start(Promise<Void> startPromise) {
+        startPromise.complete();
+    }
 }
