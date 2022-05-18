@@ -7,34 +7,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Bootstrap {
-    public static final  Vertx vertx= Vertx.vertx();
+    public static final Vertx vertx = Vertx.vertx();
     public static final Logger LOG = LoggerFactory.getLogger(Bootstrap.class);
-    public static void main(String[] args) {
-      try {
-          Class.forName("com.mysql.cj.jdbc.Driver");
-      }catch (ClassNotFoundException exception){
-          LOG.error("exception "+exception.getCause().getMessage());
-      }
 
-       start(APIServer.class.getName())
-               .compose(future->start(DatabaseEngine.class.getName()))
-               .compose(future->start(DiscoveryEngine.class.getName()))
-               .compose(future->start(PollerEngine.class.getName()))
-               .onComplete(future ->{
-                  if (future.succeeded()){
-                      LOG.info("All Verticle deployed successfully");
-                  }
-                  else {LOG.error("ERROR "+future.cause());
-                  }
-               });
+    public static void main(String[] args) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException exception) {
+            LOG.error(exception.getCause().getMessage());
+        }
+
+        start(APIServer.class.getName())
+                .compose(future -> start(DatabaseEngine.class.getName()))
+                .compose(future -> start(DiscoveryEngine.class.getName()))
+                .compose(future -> start(PollerEngine.class.getName()))
+                .onComplete(future -> {
+                    if (future.succeeded()) {
+                        LOG.info("All Verticle deployed successfully");
+                    } else {
+                        LOG.error(future.cause().getMessage());
+                    }
+                });
     }
-    public static Future<Void> start(String verticle){
-        Promise promise= Promise.promise();
-        vertx.deployVerticle(verticle,handler->{
-            if (handler.succeeded()){
+
+    public static Future<Void> start(String verticle) {
+        Promise<Void> promise = Promise.promise();
+        vertx.deployVerticle(verticle, handler -> {
+            if (handler.succeeded()) {
                 promise.complete();
-            }
-            else{
+            } else {
                 promise.fail(handler.cause());
             }
         });

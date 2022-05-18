@@ -17,7 +17,7 @@ public class APIServer extends AbstractVerticle {
     public void start(Promise<Void> startPromise) {
         Router mainRouter = Router.router(vertx);
         Router router = Router.router(vertx);
-        mainRouter.mountSubRouter("/api/",router);
+        mainRouter.mountSubRouter("/api/", router);
         mainRouter.route().handler(BodyHandler.create());
         router.route().handler(BodyHandler.create());
         var discovery = new Discovery();
@@ -26,16 +26,16 @@ public class APIServer extends AbstractVerticle {
         credential.init(router);
 
         vertx.createHttpServer().requestHandler(mainRouter).exceptionHandler(exception -> LOG.error("Exception Occurred".concat(":" + exception.getCause().getMessage())))
-        .listen(8080, http -> {
-            if (http.succeeded()) {
-                startPromise.complete();
-                LOG.info("HTTP server started");
-            } else {
-                startPromise.fail(http.cause());
-                LOG.error("HTTP server not started :".concat(http.cause().toString()));
-            }
+                .listen(8080, http -> {
+                    if (http.succeeded()) {
+                        startPromise.complete();
+                        LOG.info("HTTP server started");
+                    } else {
+                        startPromise.fail(http.cause());
+                        LOG.error("HTTP server not started :".concat(http.cause().toString()));
+                    }
 
-        });
+                });
 
     }
 
