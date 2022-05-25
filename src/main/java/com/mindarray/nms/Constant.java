@@ -4,6 +4,11 @@ package com.mindarray.nms;
 public class Constant {
     public static final String DISCOVERY_POINT = "/discovery";
     public static final String CREDENTIAL_POINT = "/credential";
+
+    public static final String MONITOR_POINT = "/monitor";
+
+    public static final String PROVISION_POINT = "/provision";
+
     public static final String CONTENT_TYPE = "application/json";
 
     public static final String SUCCESSFUL = "success";
@@ -24,19 +29,26 @@ public class Constant {
     public static final String VERSION = "version";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
-    public static final String IP="ip";
-    public static final String PROTOCOL ="protocol";
-    public static final String PORT ="port";
-    public static final String TYPE ="type";
-    public static final String CREDENTIAL_ID ="credential.id";
-    public static final String DISCOVERY_ID ="discovery.id";
+    public static final String IP = "ip";
+    public static final String PROTOCOL = "protocol";
+    public static final String PORT = "port";
+    public static final String TYPE = "type";
+    public static final String CREDENTIAL_ID = "credential.id";
+    public static final String DISCOVERY_ID = "discovery.id";
     public static final String ID = "id";
+
+    public static final String METRIC_GROUP = "metric.group";
+
 
 
     //methods
     public static final String ALL_CHECK = "allCheck";
+    public static final String CREATE = "create";
     public static final String DISCOVERY_UPDATE = "discoveryUpdate";
     public static final String CREDENTIAL_UPDATE = "credentialUpdate";
+
+    public static final String MONITOR_CHECK = "monitorDataCheck";
+
 
     public static final String CHECK_ID = "checkID";
     public static final String CREDENTIAL_DELETE = "credentialDelete";
@@ -44,5 +56,8 @@ public class Constant {
 
     //event bus
     public static final String DATABASE_ADDRESS = "database";
+    public static final String DISCOVERY_ADDRESS = "discovery";
+    public static final String SCHEDULER_ENGINE = "metricScheduler";
+    public static final String POLLING_ADDRESS = "schedulePolling";
 }
 

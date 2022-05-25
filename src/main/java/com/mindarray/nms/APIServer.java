@@ -2,6 +2,7 @@ package com.mindarray.nms;
 
 import com.mindarray.api.Credential;
 import com.mindarray.api.Discovery;
+import com.mindarray.api.Monitor;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.ext.web.Router;
@@ -20,10 +21,9 @@ public class APIServer extends AbstractVerticle {
         mainRouter.mountSubRouter("/api/", router);
         mainRouter.route().handler(BodyHandler.create());
         router.route().handler(BodyHandler.create());
-        var discovery = new Discovery();
-        discovery.init(router);
-        var credential = new Credential();
-        credential.init(router);
+        new Discovery().init(router);
+        new Credential().init(router);
+        new Monitor().init(router);
 
         vertx.createHttpServer().requestHandler(mainRouter).exceptionHandler(exception -> LOG.error("Exception Occurred".concat(":" + exception.getCause().getMessage())))
                 .listen(8080, http -> {
